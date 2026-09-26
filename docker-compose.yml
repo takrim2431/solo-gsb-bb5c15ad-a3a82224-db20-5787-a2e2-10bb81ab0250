@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    image: resistor-network-solver
+    container_name: resistor-network-solver
+    ports:
+      - "8000:8000"   # 宿主机端口:容器端口，修改左侧即可更换对外端口
+    environment:
+      - PORT=8000     # 容器内服务监听端口
+    restart: unless-stopped

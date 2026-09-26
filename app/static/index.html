@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>直流电阻网络求解器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>直流电阻网络求解器</h1>
+    <p class="hint">
+      每行一个元件：<code>R 名称 节点1 节点2 欧姆值</code> 或
+      <code>V 名称 正端节点 负端节点 伏特值</code>；
+      节点 <code>0</code> 为地，电阻必须为正，<code>#</code> 之后为注释。
+    </p>
+  </header>
+
+  <main>
+    <section class="panel input-panel">
+      <div class="toolbar">
+        <select id="example-select" title="选择示例"></select>
+        <button id="load-example" type="button">载入示例</button>
+        <button id="solve-btn" type="button" class="primary">求解 (Ctrl+Enter)</button>
+        <button id="clear-btn" type="button">清空</button>
+      </div>
+      <div class="editor">
+        <pre id="line-numbers" aria-hidden="true">1</pre>
+        <textarea id="netlist" spellcheck="false" wrap="off"
+          placeholder="例如：&#10;V V1 1 0 10&#10;R R1 1 2 1000&#10;R R2 2 0 2000"></textarea>
+      </div>
+    </section>
+
+    <section class="panel result-panel">
+      <h2>求解结果</h2>
+      <div id="status" class="status idle">请在左侧输入网表，然后点击「求解」。</div>
+      <ul id="errors" class="errors"></ul>
+      <div id="tables"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
