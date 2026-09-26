@@ -1,0 +1,8 @@
+services:
+  dc-resistor-solver:
+    build: .
+    image: dc-resistor-solver:latest
+    container_name: dc-resistor-solver
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

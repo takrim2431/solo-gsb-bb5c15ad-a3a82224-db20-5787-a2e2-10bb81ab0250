@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>直流电阻网络求解器</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>直流电阻网络求解器</h1>
+    <p class="subtitle">改进节点法（MNA）· 支持浮地电压源 · 节点 0 为参考地</p>
+  </header>
+
+  <main>
+    <section class="input-panel">
+      <div class="panel-head">
+        <h2>网表输入</h2>
+        <div class="actions">
+          <select id="example-select" title="载入示例">
+            <option value="">载入示例…</option>
+            <option value="divider">示例 1：分压电路（唯一解）</option>
+            <option value="floating">示例 2：浮地电压源（唯一解）</option>
+            <option value="infeasible">示例 3：冲突并联电压源（无解）</option>
+            <option value="infinite">示例 4：未接地浮岛（多解）</option>
+          </select>
+          <button id="clear-btn" type="button">清空</button>
+          <button id="solve-btn" class="primary" type="button">求解</button>
+        </div>
+      </div>
+
+      <div class="editor" id="editor">
+        <div class="gutter" id="gutter" aria-hidden="true"></div>
+        <textarea id="netlist" spellcheck="false"
+          placeholder="每行一个元件，例如：&#10;V Vs 1 0 12&#10;R R1 1 2 1000&#10;R R2 2 0 2000"></textarea>
+      </div>
+
+      <details class="syntax-help">
+        <summary>输入格式说明</summary>
+        <ul>
+          <li><code>R 名称 节点1 节点2 欧姆值</code> —— 电阻，欧姆值必须为<strong>正</strong>数。</li>
+          <li><code>V 名称 正端节点 负端节点 伏特值</code> —— 独立直流电压源，两端均可不接地。</li>
+          <li>节点为不小于 0 的整数，<strong>节点 0 为地</strong>；空行与以 <code>#</code> 开头的行会被忽略。</li>
+          <li>电流正方向为<strong>沿元件输入方向</strong>：电阻取节点1 → 节点2；电压源取正端 → 负端。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="result-panel">
+      <div id="banner" class="banner hidden" role="status"></div>
+
+      <div id="errors-box" class="errors-box hidden">
+        <h3>输入错误</h3>
+        <ul id="error-list"></ul>
+      </div>
+
+      <div id="tables" class="hidden">
+        <div class="table-card">
+          <h3>节点电压</h3>
+          <table>
+            <thead><tr><th>节点</th><th>电压 (V)</th></tr></thead>
+            <tbody id="voltage-body"></tbody>
+          </table>
+        </div>
+        <div class="table-card">
+          <h3>元件电流（沿输入方向）</h3>
+          <table>
+            <thead>
+              <tr><th>元件</th><th>类型</th><th>方向</th><th>电流 (A)</th></tr>
+            </thead>
+            <tbody id="current-body"></tbody>
+          </table>
+          <p class="note">负值表示实际电流方向与输入方向相反；电压源电流方向为正端 → 负端。</p>
+        </div>
+      </div>
+
+      <div id="placeholder" class="placeholder">
+        输入网表后点击「求解」，或从上方下拉框载入示例。
+      </div>
+    </section>
+  </main>
+
+  <footer>FastAPI · NumPy · 原生 JavaScript</footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

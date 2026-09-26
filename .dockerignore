@@ -1,0 +1,7 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.pyc
+test_solver.py
+README.md
